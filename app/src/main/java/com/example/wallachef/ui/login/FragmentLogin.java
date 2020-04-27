@@ -20,7 +20,7 @@ import com.example.wallachef.R;
 public class FragmentLogin extends Fragment {
 
     private EditText etNombre;
-    private EditText etpassword;
+    private EditText etPassword;
     private RelativeLayout btnEntrar;
     private RelativeLayout btnRegistro;
 
@@ -43,7 +43,7 @@ public class FragmentLogin extends Fragment {
 
     private void llamarVistas(){
         this.etNombre = getView().findViewById(R.id.etLoginNombre);
-        this.etpassword = getView().findViewById(R.id.etLoginPassword);
+        this.etPassword = getView().findViewById(R.id.etLoginPassword);
         this.btnEntrar = getView().findViewById(R.id.relativeLoginBoton);
         this.btnRegistro = getView().findViewById(R.id.relativeRegistroBoton);
         this.btnEntrar.setOnClickListener(listener);
@@ -52,22 +52,43 @@ public class FragmentLogin extends Fragment {
     }
 
 
-    public View.OnClickListener listener = new View.OnClickListener() {
+    private View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             switch (view.getId()){
 
                 case R.id.relativeLoginBoton:
-                    Toast.makeText(getContext(), "Calvo", Toast.LENGTH_LONG).show();
+                    evtBotonLogin();
                     break;
                 case R.id.relativeRegistroBoton:
-                    Toast.makeText(getContext(), "Registro", Toast.LENGTH_LONG).show();
+                    lanzarAviso("Registro");
                     break;
                 default:
                     break;
-
             }
         }
     };
+
+    private void evtBotonLogin(){
+        String mensaje;
+        if(comprobarCampos()){
+            mensaje = "Login";
+        }else{
+            mensaje = "Debes rellenar los campos";
+        }
+        lanzarAviso(mensaje);
+    }
+
+    private boolean comprobarCampos(){
+        boolean correcto = true;
+        if (etNombre.getText().toString().isEmpty() || etPassword.getText().toString().isEmpty()){
+            correcto = false;
+        }
+        return correcto;
+    }
+
+    private void lanzarAviso(String mensaje){
+        Toast.makeText(getContext(), mensaje, Toast.LENGTH_LONG).show();
+    }
 
 }
